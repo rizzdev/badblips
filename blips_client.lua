@@ -202,7 +202,9 @@ function setBlipProperties(blip_id, properties)
             EndTextCommandSetBlipName(blip_id)
         else
             SetBlipHiddenOnLegend(blip_id)
+            BeginTextCommandSetBlipName('STRING')
             AddTextComponentString('Something')
+            EndTextCommandSetBlipName(blip_id)
         end
     end
 end
