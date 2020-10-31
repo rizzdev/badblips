@@ -1,4 +1,4 @@
-![atywFWQ|690x230, 75%](upload://8V33RMBHsO4fDFNGgQLuWVrFrcT.png) 
+![atywFWQ|690x230, 75%](https://forum.cfx.re/uploads/default/original/4X/3/e/8/3e844dba6b4610b4c4a48f26454e24136378ef53.png) 
 
 ### Smart Player Blip Syncing
 
@@ -99,3 +99,6 @@ Time should be provided in ms
 ```lua
 TriggerEvent('badBlips:server:registerPlayerTempBlipGroup', source, 'police', 10000)
 ```
+
+## Download
+https://github.com/rizzdev/badblips
