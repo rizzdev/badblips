@@ -51,7 +51,7 @@ AddEventHandler('badBlips:client:syncMyBlips', function(blips)
             blips_cache[follow_id_key].needs_server = false
             blips_cache[follow_id_key].player_ped = GetPlayerPed(GetPlayerFromServerId(follow_on_source))
         else
-            print('Source ' .. follow_on_source .. ' is not networked')
+            --print('Source ' .. follow_on_source .. ' is not networked')
         end
 
         if not blips_cache[follow_id_key].ignored then -- Used to hide own blip
@@ -186,7 +186,6 @@ function setBlipProperties(blip_id, properties)
 
     if current_type ~= type or current_color ~= color then
         SetBlipSprite(blip_id, type)
-        print('setting blip color to', color)
         SetBlipColour(blip_id, color)
         SetBlipScale(blip_id, scale)
         SetBlipAlpha(blip_id, alpha)
