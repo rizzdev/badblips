@@ -12,10 +12,6 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 
-AddEventHandler('chatMessage', function(from,name,message)
-    TriggerEvent('badBlips:server:registerSourceName', from, 'test 123')
-end)
-
 RegisterNetEvent('badBlips:server:registerSourceName')
 AddEventHandler('badBlips:server:registerSourceName', function(source, name)
     if not source_cache[source] then source_cache[source] = { } end
