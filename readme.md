@@ -2,7 +2,11 @@
 
 ### Smart Player Blip Syncing
 
+> This is not plug-n-play, this is a library to make creating blips a breeze
+>
 Bad Blips offers support for the "normal" onesync, which is infinity and beyond. It works by syncing blips to the client based on a easy to use group syntax configuration, allowing integration into any framework without being dependent on roles or features.
+
+> This release is *very* beta. I will update with bug fixes as patched
 
 ## Features
 * Easy addition to groups for players by source
