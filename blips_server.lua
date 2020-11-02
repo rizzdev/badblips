@@ -26,12 +26,14 @@ AddEventHandler('badBlips:server:registerPlayerBlipGroup', function(source, grou
         blips[group] = { members = { } }
     end
 
+    doDebug('Registering player blip group for source', source)
     blips[group].members[source] = { is_member = true, }
 end)
 
 RegisterNetEvent('badBlips:server:removePlayerBlipGroup')
 AddEventHandler('badBlips:server:removePlayerBlipGroup', function(source, group)
     if blips[group].members[source] then
+        doDebug('Unregistering player blip group for source', source)
         blips[group].members[source] = nil
     end
 end)
@@ -49,6 +51,7 @@ AddEventHandler('playerDropped', function()
     local source = source
 
     -- Remove the source from the group
+    doDebug('Starting loop over groups', json.encode(blips))
     for blip_name, blip in pairs(blips) do
         for member_source, data in pairs(blip.members) do
             if source == member_source then
@@ -117,6 +120,7 @@ end)
 
 -- Format blip data into an array to use the **LEAST** amount of data possible when sending to the client
 function appendBlipsPacket(blips_data, blip_name, source, position)
+    doDebug('creating blip packet for source', blip_name, source)
     local x, y, z = table.unpack(position)
     local label = false
 
@@ -134,4 +138,10 @@ function appendBlipsPacket(blips_data, blip_name, source, position)
     })
 
     return blips_data
+end
+
+function doDebug(...)
+    if config.debug then
+        print(...)
+    end
 end

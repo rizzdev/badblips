@@ -10,6 +10,9 @@ config = {
     -- Toggle showing your own blip on the map
     hide_own_blip = false,
 
+    -- Should we debug?
+    debug = false,
+
     -- This is where you can create custom blip types
     -- Colors - https://runtime.fivem.net/doc/natives/?_0x03D7FB09E75D6B7E
     blip_types = {

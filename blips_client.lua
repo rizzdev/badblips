@@ -77,14 +77,17 @@ AddEventHandler('badBlips:client:syncMyBlips', function(blips)
     for _, __ in pairs(blips_cache) do
         -- print('checking if should remove', check_follow_id_key, server_blips[check_follow_id_key].has_server_validated)
         if not blips_cache[_].has_server_validated then
+            doDebug('Blip has failed validation, removing from map')
 
             -- Remove the blip
             if blips_cache[_].synced_blip_id then
+                doDebug('Removing networked blip that failed validation')
                 RemoveBlip(blips_cache[_].synced_blip_id)
                 blips_cache[_].synced_blip_id = false
             end
 
             if blips_cache[_].blip_id then
+                doDebug('Removing server blip that failed validation')
                 RemoveBlip(blips_cache[_].blip_id)
                 blips_cache[_].blip_id = false
             end
@@ -99,12 +102,14 @@ AddEventHandler('badBlips:client:syncMyBlips', function(blips)
 end)
 
 function doUpdateBlip(follow_id_key, blip_id, properties)
+    doDebug('Doing update work on existing blip')
     -- Set the blip using coords given by the server
     if blips_cache[follow_id_key].needs_server then -- Requires coords from the server to show blip
         --print('(doUpdateBlip) blip needs server to work')
         -- Hot switch the blip to server side version
         if not blips_cache[follow_id_key].blip_id then
             RemoveBlip(blips_cache[follow_id_key].synced_blip_id)
+            doDebug('Hotswitching removing networked blip and creating server based blip')
             local new_blip_id = doAddBlip(properties)
             blips_cache[follow_id_key].synced_blip_id = nil
             blips_cache[follow_id_key].blip_id = new_blip_id
@@ -120,6 +125,7 @@ end
 
 function doAddBlip(properties)
     local blip_id = AddBlipForCoord(properties[1] + 0.001,properties[2] + 0.001,properties[3] + 0.001)
+    doDebug('Creating new blip for the first time', blip_id)
     setBlipProperties(blip_id, properties)
     return blip_id
 end
@@ -133,6 +139,7 @@ Citizen.CreateThread(function()
             if not blips_cache[follow_id_key].needs_server and not blips_cache[follow_id_key].needs_removal then
 
                 if not blips_cache[follow_id_key].synced_blip_id then
+                    doDebug('Hotswitching blip to local networked blip')
                     --print('setting blip ID with local client')
                     -- Remove server synced blip and use local sync
                     if blips_cache[follow_id_key].blip_id then
@@ -141,6 +148,7 @@ Citizen.CreateThread(function()
                     end
 
                     if DoesEntityExist(blips_cache[follow_id_key].player_ped) then
+                        doDebug('Hotswitching check finished, creating new entity based blip')
                         local new_blip_id = AddBlipForEntity(blips_cache[follow_id_key].player_ped)
                         blips_cache[follow_id_key].synced_blip_id = new_blip_id
                     else
@@ -149,6 +157,7 @@ Citizen.CreateThread(function()
                 end
 
                 if GetBlipFromEntity(data.player_ped) then
+                    doDebug('Networked blip is synced')
                     -- print('blip is synced')
                     local blip_id = blips_cache[follow_id_key].synced_blip_id
 
@@ -166,6 +175,7 @@ Citizen.CreateThread(function()
 end)
 
 function setBlipProperties(blip_id, properties)
+    doDebug('Setting blip properties')
     local current_type = GetBlipSprite(blip_id)
     local current_color = GetBlipColour(blip_id)
     local template_type = properties[4]
@@ -205,5 +215,11 @@ function setBlipProperties(blip_id, properties)
             AddTextComponentString('Something')
             EndTextCommandSetBlipName(blip_id)
         end
+    end
+end
+
+function doDebug(...)
+    if config.debug then
+        print(...)
     end
 end
