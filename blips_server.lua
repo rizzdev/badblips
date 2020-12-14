@@ -40,9 +40,9 @@ end)
 
 RegisterNetEvent('badBlips:server:registerPlayerTempBlipGroup')
 AddEventHandler('badBlips:server:registerPlayerTempBlipGroup', function(source, group, time)
-    TriggerEvent('badBlips:server:registerPlayerBlipGroup', source, 'police')
+    TriggerEvent('badBlips:server:registerPlayerBlipGroup', source, group)
     SetTimeout(time, function()
-        TriggerEvent('badBlips:server:removePlayerBlipGroup', source, 'police')
+        TriggerEvent('badBlips:server:removePlayerBlipGroup', source, group)
     end)
 end)
 
